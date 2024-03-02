@@ -9,7 +9,7 @@
   </head>
   <body>
     <!-- Menu -->
-    <header>
+    <header id="1">
       <div class="logo">
         <img src="./assest/logo.png" alt="logo" />
         <h3>Furniro</h3>
@@ -80,8 +80,100 @@
     <!-- End -->
 
     <!-- Banner -->
-    <section class="banner">
+    <section id="1" class="banner">
       <div class="content">aaa</div>
     </section>
+    <!-- End -->
+
+    <section class="explore">
+      <div class="content">
+        <h3>50+ Beautiful rooms inspiration</h3>
+        <p>Our designer already made a lot of beautiful prototipe of rooms that inspire you</p>
+        <div class="btn">Explore more</div>
+      </div>
+      <div class="slide-container">
+        <div class="slide">
+          <div class="slide__item active" data-slide-item="1">
+            <img src="./assest/explore-1.png" alt="" />
+          </div>
+          <div class="slide__item" data-slide-item="2">
+            <img src="./assest/explore-2.png" alt="" />
+          </div>
+          <div class="slide__item" data-slide-item="3">
+            <img src="./assest/explore-3.png" alt="" />
+          </div>
+          <div class="slide__item" data-slide-item="4">
+            <img src="./assest/explore-4.png" alt="" />
+          </div>
+        </div>
+        <div class="arrows">
+          <div class="arrow arrow-left hidden">
+            <img src="./assest/arrow.svg" alt="" />
+          </div>
+          <div class="arrow arrow-right">
+            <img src="./assest/arrow.svg" alt="" />
+          </div>
+        </div>
+        <div class="dots">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      let slideIndex = 0
+      let prevIndex = 0
+      const slide = document.querySelector('.slide')
+      const slideItem = document.querySelectorAll('.slide__item')
+      const totalSlide = Object.keys(slideItem).length
+      const widthOfSlide = slideItem[0].getBoundingClientRect().width + 24 // 24 space between 2 slide
+      const arrowLeft = document.querySelector('.arrow-left')
+      const arrowRight = document.querySelector('.arrow-right')
+      const dot = document.querySelectorAll('.dot')
+
+      arrowLeft.addEventListener('click', () => {
+        prevIndex = slideIndex
+        slideIndex = (slideIndex - 1 + totalSlide) % totalSlide
+        slide.insertBefore(slideItem[slideIndex], slide.firstChild)
+        slide.style.transform = `translateX(-${widthOfSlide}px)`
+        dot[slideIndex].classList.add('active')
+        dot[prevIndex].classList.remove('active')
+        setTimeout(() => {
+          slide.style.transform = ''
+          slide.classList.add('sliding-transition')
+        }, 10)
+        setTimeout(() => {
+          slideItem[slideIndex].classList.add('active')
+        }, 200)
+        setTimeout(() => {
+          slideItem[prevIndex].classList.remove('active')
+
+          slide.classList.remove('sliding-transition')
+        }, 500)
+      })
+
+      arrowRight.addEventListener('click', () => {
+        if (slideIndex === 0) {
+          arrowLeft.classList.remove('hidden')
+        }
+        prevIndex = slideIndex
+        slideIndex = (slideIndex + 1) % totalSlide
+        slide.classList.add('sliding-transition')
+        slide.style.transform = `translateX(-${widthOfSlide}px)`
+        slideItem[slideIndex].classList.add('active')
+        dot[slideIndex].classList.add('active')
+        dot[prevIndex].classList.remove('active')
+
+        setTimeout(() => {
+          slideItem[prevIndex].classList.remove('active')
+          slide.appendChild(slideItem[prevIndex])
+          slide.classList.remove('sliding-transition')
+          slide.style.transform = ''
+        }, 500)
+      })
+    </script>
   </body>
 </html>
